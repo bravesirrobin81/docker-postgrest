@@ -66,11 +66,11 @@ spec:
         - name: LOG_FORMAT_NAME
           value: "json"
         - name: NO_LOGGING_URL_PARAMS
-          value: {{.NO_LOGGING_URL_PARAMS}}
+          value: "{{.NO_LOGGING_URL_PARAMS}}"
         - name: NO_LOGGING_BODY
-          value: {{.NO_LOGGING_BODY}}
+          value: "{{.NO_LOGGING_BODY}}"
         - name: NO_LOGGING_RESPONSE
-          value: {{.NO_LOGGING_RESPONSE}}
+          value: "{{.NO_LOGGING_RESPONSE}}"
         - name: STATSD_METRICS
           value: "FALSE"
         ports:
@@ -105,7 +105,7 @@ spec:
                 key: anonRole
                 name: {{.NAME}}
           - name: PGRST_SECRET_IS_BASE64
-            value: false
+            value: "false"
           - name: PGRST_JWT_AUD
             valueFrom:
               secretKeyRef:

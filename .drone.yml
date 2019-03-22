@@ -1,0 +1,118 @@
+workspace:
+  base: /build
+  path: src/github.com/ukhomeoffice/postgrest
+
+pipeline:
+  build:
+    image: quay.io/ukhomeofficedigital/drone-docker
+    commands:
+      - docker build -t postgrest:$${DRONE_COMMIT_SHA} .
+    when:
+      event: push
+
+
+  image_to_quay:
+    image: quay.io/ukhomeofficedigital/drone-docker
+    secrets:
+      - DOCKER_USERNAME
+      - DOCKER_PASSWORD
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/postgrest
+    tags:
+      - ${DRONE_BUILD_NUMBER}
+      - ${DRONE_COMMIT_SHA}
+      - latest
+    when:
+      branch: master
+      event: push
+
+  deploy_to_dev_reference:
+    image: quay.io/ukhomeofficedigital/kd
+    secrets:
+      - DEV_NAME
+      - DEV_DOMAIN
+      - DEV_WHITELIST
+      - DEV_KUBE_NAMESPACE
+      - DEV_KUBE_SERVER
+      - DEV_KUBE_TOKEN
+      - DEV_INTERNAL_CA_URL
+      - DEV_NO_LOGGING_URL_PARAMS
+      - DEV_NO_LOGGING_BODY
+      - DEV_PGRST_DB_URI
+      - DEV_PGRST_DB_ANON_ROLE
+      - DEV_PGRST_JWT_AUD
+      - DEV_PGRST_ROLE_CLAIM_KEY
+      - DEV_PGRST_DB_SCHEMA
+      - DEV_PGRST_SECRET_IS_BASE64
+      - DEV_PGRST_SERVER_PROXY_URI
+      - DEV_KEYCLOAK_URL
+      - DEV_KEYCLOAK_REALM
+    commands:
+      - export NAME=$${DEV_NAME}
+      - export DOMAIN=$${DEV_DOMAIN}
+      - export WHITELIST=$${DEV_WHITELIST}
+      - export KUBE_NAMESPACE=$${DEV_KUBE_NAMESPACE}
+      - export KUBE_SERVER=$${DEV_KUBE_SERVER}
+      - export KUBE_TOKEN=$${DEV_KUBE_TOKEN}
+      - export INTERNAL_CA_URL=$${DEV_INTERNAL_CA_URL}
+      - export NO_LOGGING_URL_PARAMS=$${DEV_NO_LOGGING_URL_PARAMS}
+      - export NO_LOGGING_BODY=$${DEV_NO_LOGGING_BODY}
+      - export PGRST_DB_URI=$${DEV_PGRST_DB_URI}
+      - export PGRST_DB_ANON_ROLE=$${DEV_PGRST_DB_ANON_ROLE}
+      - export PGRST_JWT_AUD=$${DEV_PGRST_JWT_AUD}
+      - export PGRST_ROLE_CLAIM_KEY=$${DEV_PGRST_ROLE_CLAIM_KEY}
+      - export PGRST_DB_SCHEMA=$${DEV_PGRST_DB_SCHEMA}
+      - export PGRST_SECRET_IS_BASE64=$${DEV_PGRST_SECRET_IS_BASE64}
+      - export PGRST_SERVER_PROXY_URI=$${DEV_PGRST_SERVER_PROXY_URI}
+      - export KEYCLOAK_URL=$${DEV_KEYCLOAK_URL}
+      - export KEYCLOAK_REALM=$${DEV_KEYCLOAK_REALM}
+      - kd --insecure-skip-tls-verify -f kube/deployment.yml -f kube/service.yml -f kube/ingress.yml -f kube/network-policy.yml -f kube/secret.yml
+    when:
+      branch: master
+      event: [ push, deployment ]
+
+
+#  deploy_to_dev_governance:
+#    image: quay.io/ukhomeofficedigital/kd
+#    secrets:
+#      - DEV_NAME
+#      - DEV_DOMAIN
+#      - DEV_WHITELIST
+#      - DEV_KUBE_NAMESPACE
+#      - DEV_KUBE_SERVER
+#      - DEV_KUBE_TOKEN
+#      - DEV_INTERNAL_CA_URL
+#      - DEV_NO_LOGGING_URL_PARAMS
+#      - DEV_NO_LOGGING_BODY
+#      - DEV_PGRST_DB_URI
+#      - DEV_PGRST_DB_ANON_ROLE
+#      - DEV_PGRST_JWT_AUD
+#      - DEV_PGRST_ROLE_CLAIM_KEY
+#      - DEV_PGRST_DB_SCHEMA
+#      - DEV_PGRST_SECRET_IS_BASE64
+#      - DEV_PGRST_SERVER_PROXY_URI
+#      - DEV_KEYCLOAK_URL
+#      - DEV_KEYCLOAK_REALM
+#    commands:
+#      - export NAME=$${DEV_NAME}
+#      - export DOMAIN=$${DEV_DOMAIN}
+#      - export WHITELIST=$${DEV_WHITELIST}
+#      - export KUBE_NAMESPACE=$${DEV_KUBE_NAMESPACE}
+#      - export KUBE_SERVER=$${DEV_KUBE_SERVER}
+#      - export KUBE_TOKEN=$${DEV_KUBE_TOKEN}
+#      - export INTERNAL_CA_URL=$${DEV_INTERNAL_CA_URL}
+#      - export NO_LOGGING_URL_PARAMS=$${DEV_NO_LOGGING_URL_PARAMS}
+#      - export NO_LOGGING_BODY=$${DEV_NO_LOGGING_BODY}
+#      - export PGRST_DB_URI=$${DEV_PGRST_DB_URI}
+#      - export PGRST_DB_ANON_ROLE=$${DEV_PGRST_DB_ANON_ROLE}
+#      - export PGRST_JWT_AUD=$${DEV_PGRST_JWT_AUD}
+#      - export PGRST_ROLE_CLAIM_KEY=$${DEV_PGRST_ROLE_CLAIM_KEY}
+#      - export PGRST_DB_SCHEMA=$${DEV_PGRST_DB_SCHEMA}
+#      - export PGRST_SECRET_IS_BASE64=$${DEV_PGRST_SECRET_IS_BASE64}
+#      - export PGRST_SERVER_PROXY_URI=$${DEV_PGRST_SERVER_PROXY_URI}
+#      - export KEYCLOAK_URL=$${DEV_KEYCLOAK_URL}
+#      - export KEYCLOAK_REALM=$${DEV_KEYCLOAK_REALM}
+#      - kd --insecure-skip-tls-verify -f kube/deployment.yml -f kube/service.yml -f kube/ingress.yml -f kube/network-policy.yml -f kube/secret.yml
+#    when:
+#      branch: master
+#      event: [ push, deployment ]

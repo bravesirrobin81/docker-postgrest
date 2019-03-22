@@ -16,7 +16,7 @@ metadata:
     stable.k8s.psg.io/kcm.provider: http
 spec:
   rules:
-  - host: {{.NAME}}.{{.DOMAIN}
+  - host: {{.NAME}}.{{.DOMAIN}}
     http:
       paths:
       - backend:
@@ -25,5 +25,5 @@ spec:
         path: /
   tls:
   - hosts:
-    - {{.NAME}}.{{.DOMAIN}
+    - {{.NAME}}.{{.DOMAIN}}
     secretName: {{.NAME}}.{{.DOMAIN}-tls

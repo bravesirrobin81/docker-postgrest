@@ -26,4 +26,4 @@ spec:
   tls:
   - hosts:
     - {{.NAME}}.{{.DOMAIN}}
-    secretName: {{.NAME}}.{{.DOMAIN}-tls
+    secretName: {{.NAME}}.{{.DOMAIN}}-tls

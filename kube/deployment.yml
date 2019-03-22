@@ -91,7 +91,8 @@ spec:
          requests:
           memory: "1024Mi"
           cpu: "1000m"
-        command: /bin/getKeycloakKey.sh
+        command:
+          - /bin/getKeycloakKey.sh
         env:
           - name: PGRST_DB_URI
             valueFrom:

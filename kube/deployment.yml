@@ -121,9 +121,9 @@ spec:
           - name: PGRST_SERVER_PROXY_URI
             value: "https://{{.NAME}}.{{.DOMAIN}}/"
           - name: KEYCLOAK_URL
-            VALUE: {{.KEYCLOAK_URL}}
+            value: {{.KEYCLOAK_URL}}
           - name: KEYCLOAK_REALM
-            VALUE: {{.KEYCLOAK_REALM}}
+            value: {{.KEYCLOAK_REALM}}
         securityContext:
           runAsNonRoot: true
       volumes:

@@ -19,7 +19,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: certs
-        image: "{{ .CONFIG_DOCKER_IMAGES_CERTS }}"
+        image: quay.io/ukhomeofficedigital/borders-cfssl-sidekick:bd4901b5a28c
         securityContext:
           runAsNonRoot: true
         args:

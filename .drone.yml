@@ -68,7 +68,11 @@ pipeline:
       - export PGRST_SERVER_PROXY_URI=$${DEV_PGRST_SERVER_PROXY_URI}
       - export KEYCLOAK_URL=$${DEV_KEYCLOAK_URL}
       - export KEYCLOAK_REALM=$${DEV_KEYCLOAK_REALM}
-      - kd --insecure-skip-tls-verify -f kube/deployment.yml -f kube/service.yml -f kube/ingress.yml -f kube/network-policy.yml -f kube/secret.yml
+      - kd --insecure-skip-tls-verify -f kube/secret.yml
+      - kd --insecure-skip-tls-verify -f kube/network-policy.yml
+      - kd --insecure-skip-tls-verify -f kube/service.yml
+      - kd --insecure-skip-tls-verify -f kube/deployment.yml
+      - kd --insecure-skip-tls-verify -f kube/ingress.yml
     when:
       branch: master
       event: [ push, deployment ]

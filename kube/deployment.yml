@@ -23,7 +23,7 @@ spec:
         securityContext:
           runAsNonRoot: true
         args:
-          - --domain={{.NAME}}.{{.KUBE_NAMESPACE}}.svc.local
+          - --domain={{.NAME}}.{{.KUBE_NAMESPACE}}.svc.cluster.local
           - --url={{.INTERNAL_CA_URL}}
           - --verbose=True
         volumeMounts:

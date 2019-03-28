@@ -13,8 +13,9 @@ RUN yum clean all && \
     rpm --rebuilddb
 
 RUN cd /tmp && \
-    curl -SLO https://github.com/PostgREST/postgrest/releases/download/${POSTGREST_VERSION}/postgrest-${POSTGREST_VERSION}-ubuntu.tar.xz && \
-    tar -xJvf postgrest-${POSTGREST_VERSION}-ubuntu.tar.xz && \
+    curl -SLO https://github.com/PostgREST/postgrest/releases/download/${POSTGREST_VERSION}/postgrest-${POSTGREST_VERSION}-centos7.tar.xz && \
+    unxz postgrest-${POSTGREST_VERSION}-centos7.tar.xz && \
+    tar -xf postgrest-${POSTGREST_VERSION}-centos7.tar && \
     mv postgrest /usr/local/bin/postgrest
 
 ARG POSTGREST_VERSION

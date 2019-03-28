@@ -12,6 +12,22 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: ingress-external
+    - from:
+        - podSelector:
+            matchLabels:
+              name: {{.PRIVATE_UI_NAME}}
+    - from:
+        - podSelector:
+            matchLabels:
+              name: {{.PRIVATE_TRANSLATION_SERVICE_NAME}}
+    - from:
+        - podSelector:
+            matchLabels:
+              name: {{.PRIVATE_WORKFLOW_EXECUTOR_NAME}}
+    - from:
+        - podSelector:
+            matchLabels:
+              name: {{.PRIVATE_WORKFLOW_ENGINE_NAME}}
     ports:
     - protocol: TCP
       port: 10443

@@ -1,5 +1,7 @@
 FROM quay.io/ukhomeofficedigital/centos-base
 
+ARG POSTGREST_VERSION v5.2.0
+
 RUN groupadd -r postgrest -g 1000 && \
     useradd -u 1000 -r -g postgrest -m -d /home/postgrest -s /sbin/nologin -c "Postgrest" postgrest && \
     chmod 755 /home/postgrest
@@ -17,8 +19,6 @@ RUN cd /tmp && \
     unxz postgrest-${POSTGREST_VERSION}-centos7.tar.xz && \
     tar -xf postgrest-${POSTGREST_VERSION}-centos7.tar && \
     mv postgrest /usr/local/bin/postgrest
-
-ARG POSTGREST_VERSION
 
 ENV PGRST_DB_URI="" \
     PGRST_DB_SCHEMA=public \

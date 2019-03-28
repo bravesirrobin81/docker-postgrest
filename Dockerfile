@@ -5,8 +5,8 @@ RUN groupadd -r postgrest -g 1000 && \
     chmod 755 /home/postgrest
 
 RUN yum clean all && \
-    yum install yum-plugin-ovl epel-release curl ca-certificates && \
-    yum install xz libpq-dev jq -y && \
+    yum install -y yum-plugin-ovl epel-release curl ca-certificates && \
+    yum install -y xz libpq-dev jq && \
     yum update -y && \
     yum clean all && \
     rm -rf /var/cache/yum && \

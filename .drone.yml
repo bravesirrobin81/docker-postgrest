@@ -29,96 +29,214 @@ pipeline:
   deploy_to_dev_reference:
     image: quay.io/ukhomeofficedigital/kd
     secrets:
-      - DEV_NAME
-      - DEV_DOMAIN
-      - DEV_WHITELIST
-      - DEV_KUBE_NAMESPACE
-      - DEV_KUBE_SERVER
-      - DEV_KUBE_TOKEN
-      - DEV_INTERNAL_CA_URL
-      - DEV_NO_LOGGING_URL_PARAMS
-      - DEV_NO_LOGGING_BODY
-      - DEV_NO_LOGGING_RESPONSE
-      - DEV_PGRST_DB_URI
-      - DEV_PGRST_DB_ANON_ROLE
-      - DEV_PGRST_JWT_AUD
-      - DEV_PGRST_ROLE_CLAIM_KEY
-      - DEV_PGRST_DB_SCHEMA
-      - DEV_PGRST_SECRET_IS_BASE64
-      - DEV_PGRST_SERVER_PROXY_URI
-      - DEV_KEYCLOAK_URL
-      - DEV_KEYCLOAK_REALM
+      - REFDATA_DEV_NAME
+      - REFDATA_DEV_DOMAIN
+      - REFDATA_DEV_WHITELIST
+      - REFDATA_DEV_KUBE_NAMESPACE
+      - REFDATA_DEV_KUBE_SERVER
+      - REFDATA_DEV_KUBE_TOKEN
+      - REFDATA_DEV_INTERNAL_CA_URL
+      - REFDATA_DEV_NO_LOGGING_URL_PARAMS
+      - REFDATA_DEV_NO_LOGGING_BODY
+      - REFDATA_DEV_NO_LOGGING_RESPONSE
+      - REFDATA_DEV_PGRST_DB_URI
+      - REFDATA_DEV_PGRST_DB_ANON_ROLE
+      - REFDATA_DEV_PGRST_JWT_AUD
+      - REFDATA_DEV_PGRST_ROLE_CLAIM_KEY
+      - REFDATA_DEV_PGRST_DB_SCHEMA
+      - REFDATA_DEV_PGRST_SECRET_IS_BASE64
+      - REFDATA_DEV_PGRST_SERVER_PROXY_URI
+      - REFDATA_DEV_KEYCLOAK_URL
+      - REFDATA_DEV_KEYCLOAK_REALM
     commands:
-      - export NAME=$${DEV_NAME}
-      - export DOMAIN=$${DEV_DOMAIN}
-      - export WHITELIST=$${DEV_WHITELIST}
-      - export KUBE_NAMESPACE=$${DEV_KUBE_NAMESPACE}
-      - export KUBE_SERVER=$${DEV_KUBE_SERVER}
-      - export KUBE_TOKEN=$${DEV_KUBE_TOKEN}
-      - export INTERNAL_CA_URL=$${DEV_INTERNAL_CA_URL}
-      - export NO_LOGGING_URL_PARAMS=$${DEV_NO_LOGGING_URL_PARAMS}
-      - export NO_LOGGING_BODY=$${DEV_NO_LOGGING_BODY}
-      - export NO_LOGGING_RESPONSE=$${DEV_NO_LOGGING_RESPONSE}
-      - export PGRST_DB_URI=$${DEV_PGRST_DB_URI}
-      - export PGRST_DB_ANON_ROLE=$${DEV_PGRST_DB_ANON_ROLE}
-      - export PGRST_JWT_AUD=$${DEV_PGRST_JWT_AUD}
-      - export PGRST_ROLE_CLAIM_KEY=$${DEV_PGRST_ROLE_CLAIM_KEY}
-      - export PGRST_DB_SCHEMA=$${DEV_PGRST_DB_SCHEMA}
-      - export PGRST_SECRET_IS_BASE64=$${DEV_PGRST_SECRET_IS_BASE64}
-      - export PGRST_SERVER_PROXY_URI=$${DEV_PGRST_SERVER_PROXY_URI}
-      - export KEYCLOAK_URL=$${DEV_KEYCLOAK_URL}
-      - export KEYCLOAK_REALM=$${DEV_KEYCLOAK_REALM}
+      - export NAME=$${REFDATA_DEV_NAME}
+      - export DOMAIN=$${REFDATA_DEV_DOMAIN}
+      - export WHITELIST=$${REFDATA_DEV_WHITELIST}
+      - export KUBE_NAMESPACE=$${REFDATA_DEV_KUBE_NAMESPACE}
+      - export KUBE_SERVER=$${REFDATA_DEV_KUBE_SERVER}
+      - export KUBE_TOKEN=$${REFDATA_DEV_KUBE_TOKEN}
+      - export INTERNAL_CA_URL=$${REFDATA_DEV_INTERNAL_CA_URL}
+      - export NO_LOGGING_URL_PARAMS=$${REFDATA_DEV_NO_LOGGING_URL_PARAMS}
+      - export NO_LOGGING_BODY=$${REFDATA_DEV_NO_LOGGING_BODY}
+      - export NO_LOGGING_RESPONSE=$${REFDATA_DEV_NO_LOGGING_RESPONSE}
+      - export PGRST_DB_URI=$${REFDATA_DEV_PGRST_DB_URI}
+      - export PGRST_DB_ANON_ROLE=$${REFDATA_DEV_PGRST_DB_ANON_ROLE}
+      - export PGRST_JWT_AUD=$${REFDATA_DEV_PGRST_JWT_AUD}
+      - export PGRST_ROLE_CLAIM_KEY=$${REFDATA_DEV_PGRST_ROLE_CLAIM_KEY}
+      - export PGRST_DB_SCHEMA=$${REFDATA_DEV_PGRST_DB_SCHEMA}
+      - export PGRST_SECRET_IS_BASE64=$${REFDATA_DEV_PGRST_SECRET_IS_BASE64}
+      - export PGRST_SERVER_PROXY_URI=$${REFDATA_DEV_PGRST_SERVER_PROXY_URI}
+      - export KEYCLOAK_URL=$${REFDATA_DEV_KEYCLOAK_URL}
+      - export KEYCLOAK_REALM=$${REFDATA_DEV_KEYCLOAK_REALM}
       - kd --insecure-skip-tls-verify -f kube/secret.yml
       - kd --insecure-skip-tls-verify -f kube/network-policy.yml
       - kd --insecure-skip-tls-verify -f kube/service.yml
       - kd --insecure-skip-tls-verify -f kube/deployment.yml
       - kd --insecure-skip-tls-verify -f kube/ingress.yml
     when:
-      branch: master
-      event: [ push, deployment ]
+      branch:
+        - master
+      event:
+        - push
+        - deployment
 
+  deploy_to_dev_transaction:
+    image: quay.io/ukhomeofficedigital/kd
+    secrets:
+      - TRANSACTION_DEV_NAME
+      - TRANSACTION_DEV_DOMAIN
+      - TRANSACTION_DEV_WHITELIST
+      - TRANSACTION_DEV_KUBE_NAMESPACE
+      - TRANSACTION_DEV_KUBE_SERVER
+      - TRANSACTION_DEV_KUBE_TOKEN
+      - TRANSACTION_DEV_INTERNAL_CA_URL
+      - TRANSACTION_DEV_NO_LOGGING_URL_PARAMS
+      - TRANSACTION_DEV_NO_LOGGING_BODY
+      - TRANSACTION_DEV_NO_LOGGING_RESPONSE
+      - TRANSACTION_DEV_PGRST_DB_URI
+      - TRANSACTION_DEV_PGRST_DB_ANON_ROLE
+      - TRANSACTION_DEV_PGRST_JWT_AUD
+      - TRANSACTION_DEV_PGRST_ROLE_CLAIM_KEY
+      - TRANSACTION_DEV_PGRST_DB_SCHEMA
+      - TRANSACTION_DEV_PGRST_SECRET_IS_BASE64
+      - TRANSACTION_DEV_PGRST_SERVER_PROXY_URI
+      - TRANSACTION_DEV_KEYCLOAK_URL
+      - TRANSACTION_DEV_KEYCLOAK_REALM
+    commands:
+      - export NAME=$${TRANSACTION_DEV_NAME}
+      - export DOMAIN=$${TRANSACTION_DEV_DOMAIN}
+      - export WHITELIST=$${TRANSACTION_DEV_WHITELIST}
+      - export KUBE_NAMESPACE=$${TRANSACTION_DEV_KUBE_NAMESPACE}
+      - export KUBE_SERVER=$${TRANSACTION_DEV_KUBE_SERVER}
+      - export KUBE_TOKEN=$${TRANSACTION_DEV_KUBE_TOKEN}
+      - export INTERNAL_CA_URL=$${TRANSACTION_DEV_INTERNAL_CA_URL}
+      - export NO_LOGGING_URL_PARAMS=$${TRANSACTION_DEV_NO_LOGGING_URL_PARAMS}
+      - export NO_LOGGING_BODY=$${TRANSACTION_DEV_NO_LOGGING_BODY}
+      - export NO_LOGGING_RESPONSE=$${TRANSACTION_DEV_NO_LOGGING_RESPONSE}
+      - export PGRST_DB_URI=$${TRANSACTION_DEV_PGRST_DB_URI}
+      - export PGRST_DB_ANON_ROLE=$${TRANSACTION_DEV_PGRST_DB_ANON_ROLE}
+      - export PGRST_JWT_AUD=$${TRANSACTION_DEV_PGRST_JWT_AUD}
+      - export PGRST_ROLE_CLAIM_KEY=$${TRANSACTION_DEV_PGRST_ROLE_CLAIM_KEY}
+      - export PGRST_DB_SCHEMA=$${TRANSACTION_DEV_PGRST_DB_SCHEMA}
+      - export PGRST_SECRET_IS_BASE64=$${TRANSACTION_DEV_PGRST_SECRET_IS_BASE64}
+      - export PGRST_SERVER_PROXY_URI=$${TRANSACTION_DEV_PGRST_SERVER_PROXY_URI}
+      - export KEYCLOAK_URL=$${TRANSACTION_DEV_KEYCLOAK_URL}
+      - export KEYCLOAK_REALM=$${TRANSACTION_DEV_KEYCLOAK_REALM}
+      - kd --insecure-skip-tls-verify -f kube/secret.yml
+      - kd --insecure-skip-tls-verify -f kube/network-policy.yml
+      - kd --insecure-skip-tls-verify -f kube/service.yml
+      - kd --insecure-skip-tls-verify -f kube/deployment.yml
+      - kd --insecure-skip-tls-verify -f kube/ingress.yml
+    when:
+      branch:
+        - master
+      event:
+        - push
+        - deployment
 
-#  deploy_to_dev_governance:
-#    image: quay.io/ukhomeofficedigital/kd
-#    secrets:
-#      - DEV_NAME
-#      - DEV_DOMAIN
-#      - DEV_WHITELIST
-#      - DEV_KUBE_NAMESPACE
-#      - DEV_KUBE_SERVER
-#      - DEV_KUBE_TOKEN
-#      - DEV_INTERNAL_CA_URL
-#      - DEV_NO_LOGGING_URL_PARAMS
-#      - DEV_NO_LOGGING_BODY
-#      - DEV_PGRST_DB_URI
-#      - DEV_PGRST_DB_ANON_ROLE
-#      - DEV_PGRST_JWT_AUD
-#      - DEV_PGRST_ROLE_CLAIM_KEY
-#      - DEV_PGRST_DB_SCHEMA
-#      - DEV_PGRST_SECRET_IS_BASE64
-#      - DEV_PGRST_SERVER_PROXY_URI
-#      - DEV_KEYCLOAK_URL
-#      - DEV_KEYCLOAK_REALM
-#    commands:
-#      - export NAME=$${DEV_NAME}
-#      - export DOMAIN=$${DEV_DOMAIN}
-#      - export WHITELIST=$${DEV_WHITELIST}
-#      - export KUBE_NAMESPACE=$${DEV_KUBE_NAMESPACE}
-#      - export KUBE_SERVER=$${DEV_KUBE_SERVER}
-#      - export KUBE_TOKEN=$${DEV_KUBE_TOKEN}
-#      - export INTERNAL_CA_URL=$${DEV_INTERNAL_CA_URL}
-#      - export NO_LOGGING_URL_PARAMS=$${DEV_NO_LOGGING_URL_PARAMS}
-#      - export NO_LOGGING_BODY=$${DEV_NO_LOGGING_BODY}
-#      - export PGRST_DB_URI=$${DEV_PGRST_DB_URI}
-#      - export PGRST_DB_ANON_ROLE=$${DEV_PGRST_DB_ANON_ROLE}
-#      - export PGRST_JWT_AUD=$${DEV_PGRST_JWT_AUD}
-#      - export PGRST_ROLE_CLAIM_KEY=$${DEV_PGRST_ROLE_CLAIM_KEY}
-#      - export PGRST_DB_SCHEMA=$${DEV_PGRST_DB_SCHEMA}
-#      - export PGRST_SECRET_IS_BASE64=$${DEV_PGRST_SECRET_IS_BASE64}
-#      - export PGRST_SERVER_PROXY_URI=$${DEV_PGRST_SERVER_PROXY_URI}
-#      - export KEYCLOAK_URL=$${DEV_KEYCLOAK_URL}
-#      - export KEYCLOAK_REALM=$${DEV_KEYCLOAK_REALM}
-#      - kd --insecure-skip-tls-verify -f kube/deployment.yml -f kube/service.yml -f kube/ingress.yml -f kube/network-policy.yml -f kube/secret.yml
-#    when:
-#      branch: master
-#      event: [ push, deployment ]
+  deploy_to_test_transaction:
+    image: quay.io/ukhomeofficedigital/kd
+    secrets:
+      - TRANSACTION_TEST_NAME
+      - TRANSACTION_TEST_DOMAIN
+      - TRANSACTION_TEST_WHITELIST
+      - TRANSACTION_TEST_KUBE_NAMESPACE
+      - TRANSACTION_TEST_KUBE_SERVER
+      - TRANSACTION_TEST_KUBE_TOKEN
+      - TRANSACTION_TEST_INTERNAL_CA_URL
+      - TRANSACTION_TEST_NO_LOGGING_URL_PARAMS
+      - TRANSACTION_TEST_NO_LOGGING_BODY
+      - TRANSACTION_TEST_NO_LOGGING_RESPONSE
+      - TRANSACTION_TEST_PGRST_DB_URI
+      - TRANSACTION_TEST_PGRST_DB_ANON_ROLE
+      - TRANSACTION_TEST_PGRST_JWT_AUD
+      - TRANSACTION_TEST_PGRST_ROLE_CLAIM_KEY
+      - TRANSACTION_TEST_PGRST_DB_SCHEMA
+      - TRANSACTION_TEST_PGRST_SECRET_IS_BASE64
+      - TRANSACTION_TEST_PGRST_SERVER_PROXY_URI
+      - TRANSACTION_TEST_KEYCLOAK_URL
+      - TRANSACTION_TEST_KEYCLOAK_REALM
+    commands:
+      - export NAME=$${TRANSACTION_TEST_NAME}
+      - export DOMAIN=$${TRANSACTION_TEST_DOMAIN}
+      - export WHITELIST=$${TRANSACTION_TEST_WHITELIST}
+      - export KUBE_NAMESPACE=$${TRANSACTION_TEST_KUBE_NAMESPACE}
+      - export KUBE_SERVER=$${TRANSACTION_TEST_KUBE_SERVER}
+      - export KUBE_TOKEN=$${TRANSACTION_TEST_KUBE_TOKEN}
+      - export INTERNAL_CA_URL=$${TRANSACTION_TEST_INTERNAL_CA_URL}
+      - export NO_LOGGING_URL_PARAMS=$${TRANSACTION_TEST_NO_LOGGING_URL_PARAMS}
+      - export NO_LOGGING_BODY=$${TRANSACTION_TEST_NO_LOGGING_BODY}
+      - export NO_LOGGING_RESPONSE=$${TRANSACTION_TEST_NO_LOGGING_RESPONSE}
+      - export PGRST_DB_URI=$${TRANSACTION_TEST_PGRST_DB_URI}
+      - export PGRST_DB_ANON_ROLE=$${TRANSACTION_TEST_PGRST_DB_ANON_ROLE}
+      - export PGRST_JWT_AUD=$${TRANSACTION_TEST_PGRST_JWT_AUD}
+      - export PGRST_ROLE_CLAIM_KEY=$${TRANSACTION_TEST_PGRST_ROLE_CLAIM_KEY}
+      - export PGRST_DB_SCHEMA=$${TRANSACTION_TEST_PGRST_DB_SCHEMA}
+      - export PGRST_SECRET_IS_BASE64=$${TRANSACTION_TEST_PGRST_SECRET_IS_BASE64}
+      - export PGRST_SERVER_PROXY_URI=$${TRANSACTION_TEST_PGRST_SERVER_PROXY_URI}
+      - export KEYCLOAK_URL=$${TRANSACTION_TEST_KEYCLOAK_URL}
+      - export KEYCLOAK_REALM=$${TRANSACTION_TEST_KEYCLOAK_REALM}
+      - kd --insecure-skip-tls-verify -f kube/secret.yml
+      - kd --insecure-skip-tls-verify -f kube/network-policy.yml
+      - kd --insecure-skip-tls-verify -f kube/service.yml
+      - kd --insecure-skip-tls-verify -f kube/deployment.yml
+      - kd --insecure-skip-tls-verify -f kube/ingress.yml
+    when:
+      branch:
+        - master
+      event:
+        - push
+        - deployment
+
+  deploy_to_demo_transaction:
+    image: quay.io/ukhomeofficedigital/kd
+    secrets:
+      - TRANSACTION_DEMO_NAME
+      - TRANSACTION_DEMO_DOMAIN
+      - TRANSACTION_DEMO_WHITELIST
+      - TRANSACTION_DEMO_KUBE_NAMESPACE
+      - TRANSACTION_DEMO_KUBE_SERVER
+      - TRANSACTION_DEMO_KUBE_TOKEN
+      - TRANSACTION_DEMO_INTERNAL_CA_URL
+      - TRANSACTION_DEMO_NO_LOGGING_URL_PARAMS
+      - TRANSACTION_DEMO_NO_LOGGING_BODY
+      - TRANSACTION_DEMO_NO_LOGGING_RESPONSE
+      - TRANSACTION_DEMO_PGRST_DB_URI
+      - TRANSACTION_DEMO_PGRST_DB_ANON_ROLE
+      - TRANSACTION_DEMO_PGRST_JWT_AUD
+      - TRANSACTION_DEMO_PGRST_ROLE_CLAIM_KEY
+      - TRANSACTION_DEMO_PGRST_DB_SCHEMA
+      - TRANSACTION_DEMO_PGRST_SECRET_IS_BASE64
+      - TRANSACTION_DEMO_PGRST_SERVER_PROXY_URI
+      - TRANSACTION_DEMO_KEYCLOAK_URL
+      - TRANSACTION_DEMO_KEYCLOAK_REALM
+    commands:
+      - export NAME=$${TRANSACTION_DEMO_NAME}
+      - export DOMAIN=$${TRANSACTION_DEMO_DOMAIN}
+      - export WHITELIST=$${TRANSACTION_DEMO_WHITELIST}
+      - export KUBE_NAMESPACE=$${TRANSACTION_DEMO_KUBE_NAMESPACE}
+      - export KUBE_SERVER=$${TRANSACTION_DEMO_KUBE_SERVER}
+      - export KUBE_TOKEN=$${TRANSACTION_DEMO_KUBE_TOKEN}
+      - export INTERNAL_CA_URL=$${TRANSACTION_DEMO_INTERNAL_CA_URL}
+      - export NO_LOGGING_URL_PARAMS=$${TRANSACTION_DEMO_NO_LOGGING_URL_PARAMS}
+      - export NO_LOGGING_BODY=$${TRANSACTION_DEMO_NO_LOGGING_BODY}
+      - export NO_LOGGING_RESPONSE=$${TRANSACTION_DEMO_NO_LOGGING_RESPONSE}
+      - export PGRST_DB_URI=$${TRANSACTION_DEMO_PGRST_DB_URI}
+      - export PGRST_DB_ANON_ROLE=$${TRANSACTION_DEMO_PGRST_DB_ANON_ROLE}
+      - export PGRST_JWT_AUD=$${TRANSACTION_DEMO_PGRST_JWT_AUD}
+      - export PGRST_ROLE_CLAIM_KEY=$${TRANSACTION_DEMO_PGRST_ROLE_CLAIM_KEY}
+      - export PGRST_DB_SCHEMA=$${TRANSACTION_DEMO_PGRST_DB_SCHEMA}
+      - export PGRST_SECRET_IS_BASE64=$${TRANSACTION_DEMO_PGRST_SECRET_IS_BASE64}
+      - export PGRST_SERVER_PROXY_URI=$${TRANSACTION_DEMO_PGRST_SERVER_PROXY_URI}
+      - export KEYCLOAK_URL=$${TRANSACTION_DEMO_KEYCLOAK_URL}
+      - export KEYCLOAK_REALM=$${TRANSACTION_DEMO_KEYCLOAK_REALM}
+      - kd --insecure-skip-tls-verify -f kube/secret.yml
+      - kd --insecure-skip-tls-verify -f kube/network-policy.yml
+      - kd --insecure-skip-tls-verify -f kube/service.yml
+      - kd --insecure-skip-tls-verify -f kube/deployment.yml
+      - kd --insecure-skip-tls-verify -f kube/ingress.yml
+    when:
+      branch:
+        - master
+      event:
+        - deployment

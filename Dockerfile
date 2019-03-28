@@ -1,6 +1,6 @@
 FROM quay.io/ukhomeofficedigital/centos-base
 
-ARG POSTGREST_VERSION v5.2.0
+ARG POSTGREST_VERSION=v5.2.0
 
 RUN groupadd -r postgrest -g 1000 && \
     useradd -u 1000 -r -g postgrest -m -d /home/postgrest -s /sbin/nologin -c "Postgrest" postgrest && \

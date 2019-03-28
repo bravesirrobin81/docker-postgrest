@@ -82,7 +82,7 @@ spec:
           - name: bundle
             mountPath: /etc/ssl/certs
             readOnly: true
-      - name: {{.NAME}}
+      - name: postgrest
         image: quay.io/ukhomeofficedigital/postgrest
         resources:
          limits:

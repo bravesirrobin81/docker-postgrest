@@ -83,7 +83,8 @@ spec:
             mountPath: /etc/ssl/certs
             readOnly: true
       - name: postgrest
-        image: quay.io/ukhomeofficedigital/postgrest
+        image: quay.io/ukhomeofficedigital/postgrest:latest
+        imagePullPolicy: Always
         resources:
          limits:
           memory: "1024Mi"

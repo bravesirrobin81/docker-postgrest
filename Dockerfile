@@ -2,7 +2,10 @@ FROM postgrest/postgrest:latest
 
 USER root
 
-RUN apt-get install -y curl ca-certificates
+RUN apt-get update && \
+    apt-get install -y curl ca-certificates && \
+    apt-get -qq clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD getKeycloakKey.sh /usr/local/bin/getKeycloakKey.sh
 

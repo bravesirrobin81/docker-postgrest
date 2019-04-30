@@ -1,4 +1,4 @@
-FROM postgrest/postgrest:latest
+FROM postgrest/postgrest:v5.1.0
 
 USER root
 

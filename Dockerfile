@@ -8,6 +8,7 @@ RUN apt-get update && \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ADD postgrest /usr/local/bin/postgrest
 ADD getKeycloakKey.sh /usr/local/bin/getKeycloakKey.sh
 
 RUN chmod +x /usr/local/bin/getKeycloakKey.sh /usr/local/bin/postgrest

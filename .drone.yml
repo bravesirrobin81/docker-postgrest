@@ -6,6 +6,7 @@ pipeline:
   build:
     image: quay.io/ukhomeofficedigital/drone-docker
     commands:
+      - tar xf postgrest-profile.tar.xz
       - docker build -t postgrest:$${DRONE_COMMIT_SHA} .
     when:
       event: push

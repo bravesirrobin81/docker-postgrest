@@ -12,7 +12,7 @@ RUN BUILD_DEPS="curl ca-certificates build-essential git" && \
 
 ENV PATH $PATH:/root/.local/bin
 
-RUN git clone https://github.com/PostgREST/postgrest.git
+RUN git clone -b v5.2.0 https://github.com/PostgREST/postgrest.git
 RUN cd postgrest && stack build --profile
 
 

@@ -1,3 +1,22 @@
+# Build postgrest
+FROM ubuntu:16.04
+
+RUN BUILD_DEPS="curl ca-certificates build-essential git" && \
+    apt-get -qq update && \
+    apt-get -qqy --no-install-recommends install \
+    $BUILD_DEPS \
+    libpq-dev && \
+    curl -sSL https://get.haskellstack.org/ | sh && \
+    apt-get -qq clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV PATH $PATH:/root/.local/bin
+
+RUN git clone -b v5.2.0 https://github.com/PostgREST/postgrest.git
+RUN cd postgrest && stack build --profile
+
+
+# Build deployable image
 FROM amazonlinux:latest
 
 USER root
@@ -9,7 +28,7 @@ RUN yum -y update && \
     yum -y clean all
 
 ADD postgrest.conf /etc
-ADD postgrest /usr/local/bin/postgrest
+COPY --from=0 /postgrest/.stack-work/install/x86_64-linux/lts-9.6/8.0.2/bin/postgrest /usr/local/bin/postgrest
 ADD getKeycloakKey.sh /usr/local/bin/getKeycloakKey.sh
 
 RUN chmod +x /usr/local/bin/getKeycloakKey.sh /usr/local/bin/postgrest

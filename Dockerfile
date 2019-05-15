@@ -21,7 +21,7 @@ FROM amazonlinux:latest
 
 USER root
 
-RUN yum -y update && \
+RUN yum -y update --exclude=filesystem && \
     yum -y install shadow-utils postgresql-libs && \
     groupadd -g 1000 postgrest && \
     adduser -g 1000 -u 1000 -s /bin/bash -d /home/postgrest postgrest && \

@@ -26,68 +26,6 @@ pipeline:
       branch: master
       event: push
 
-  deploy_to_dev_reference:
-    image: quay.io/ukhomeofficedigital/kd
-    secrets:
-      - REFDATA_DEV_NAME
-      - REFDATA_DEV_DOMAIN
-      - REFDATA_DEV_WHITELIST
-      - REFDATA_DEV_KUBE_NAMESPACE
-      - REFDATA_DEV_KUBE_SERVER
-      - REFDATA_DEV_KUBE_TOKEN
-      - REFDATA_DEV_INTERNAL_CA_URL
-      - REFDATA_DEV_NO_LOGGING_URL_PARAMS
-      - REFDATA_DEV_NO_LOGGING_BODY
-      - REFDATA_DEV_NO_LOGGING_RESPONSE
-      - REFDATA_DEV_PGRST_DB_URI
-      - REFDATA_DEV_PGRST_DB_ANON_ROLE
-      - REFDATA_DEV_PGRST_JWT_AUD
-      - REFDATA_DEV_PGRST_ROLE_CLAIM_KEY
-      - REFDATA_DEV_PGRST_DB_SCHEMA
-      - REFDATA_DEV_PGRST_SECRET_IS_BASE64
-      - REFDATA_DEV_PGRST_SERVER_PROXY_URI
-      - REFDATA_DEV_KEYCLOAK_URL
-      - REFDATA_DEV_KEYCLOAK_REALM
-      - REFDATA_DEV_PRIVATE_UI_NAME
-      - REFDATA_DEV_PRIVATE_WORKFLOW_ENGINE_NAME
-      - REFDATA_DEV_PRIVATE_WORKFLOW_EXECUTOR_NAME
-      - REFDATA_DEV_PRIVATE_TRANSLATION_SERVICE_NAME
-    commands:
-      - export NAME=$${REFDATA_DEV_NAME}
-      - export DOMAIN=$${REFDATA_DEV_DOMAIN}
-      - export WHITELIST=$${REFDATA_DEV_WHITELIST}
-      - export KUBE_NAMESPACE=$${REFDATA_DEV_KUBE_NAMESPACE}
-      - export KUBE_SERVER=$${REFDATA_DEV_KUBE_SERVER}
-      - export KUBE_TOKEN=$${REFDATA_DEV_KUBE_TOKEN}
-      - export INTERNAL_CA_URL=$${REFDATA_DEV_INTERNAL_CA_URL}
-      - export NO_LOGGING_URL_PARAMS=$${REFDATA_DEV_NO_LOGGING_URL_PARAMS}
-      - export NO_LOGGING_BODY=$${REFDATA_DEV_NO_LOGGING_BODY}
-      - export NO_LOGGING_RESPONSE=$${REFDATA_DEV_NO_LOGGING_RESPONSE}
-      - export PGRST_DB_URI=$${REFDATA_DEV_PGRST_DB_URI}
-      - export PGRST_DB_ANON_ROLE=$${REFDATA_DEV_PGRST_DB_ANON_ROLE}
-      - export PGRST_JWT_AUD=$${REFDATA_DEV_PGRST_JWT_AUD}
-      - export PGRST_ROLE_CLAIM_KEY=$${REFDATA_DEV_PGRST_ROLE_CLAIM_KEY}
-      - export PGRST_DB_SCHEMA=$${REFDATA_DEV_PGRST_DB_SCHEMA}
-      - export PGRST_SECRET_IS_BASE64=$${REFDATA_DEV_PGRST_SECRET_IS_BASE64}
-      - export PGRST_SERVER_PROXY_URI=$${REFDATA_DEV_PGRST_SERVER_PROXY_URI}
-      - export KEYCLOAK_URL=$${REFDATA_DEV_KEYCLOAK_URL}
-      - export KEYCLOAK_REALM=$${REFDATA_DEV_KEYCLOAK_REALM}
-      - export PRIVATE_UI_NAME=$${REFDATA_DEV_PRIVATE_UI_NAME}
-      - export PRIVATE_WORKFLOW_ENGINE_NAME=$${REFDATA_DEV_PRIVATE_WORKFLOW_ENGINE_NAME}
-      - export PRIVATE_WORKFLOW_EXECUTOR_NAME=$${REFDATA_DEV_PRIVATE_WORKFLOW_EXECUTOR_NAME}
-      - export PRIVATE_TRANSLATION_SERVICE_NAME=$${REFDATA_DEV_PRIVATE_TRANSLATION_SERVICE_NAME}
-      - kd --insecure-skip-tls-verify -f kube/secret.yml
-      - kd --insecure-skip-tls-verify -f kube/network-policy.yml
-      - kd --insecure-skip-tls-verify -f kube/service.yml
-      - kd --insecure-skip-tls-verify -f kube/deployment.yml
-      - kd --insecure-skip-tls-verify -f kube/ingress.yml
-    when:
-      branch:
-        - master
-      event:
-        - push
-        - deployment
-
   deploy_to_dev_transaction:
     image: quay.io/ukhomeofficedigital/kd
     secrets:
@@ -114,6 +52,7 @@ pipeline:
       - TRANSACTION_DEV_PRIVATE_WORKFLOW_ENGINE_NAME
       - TRANSACTION_DEV_PRIVATE_WORKFLOW_EXECUTOR_NAME
       - TRANSACTION_DEV_PRIVATE_TRANSLATION_SERVICE_NAME
+      - TRANSACTION_DEV_UPTIME
     commands:
       - export NAME=$${TRANSACTION_DEV_NAME}
       - export DOMAIN=$${TRANSACTION_DEV_DOMAIN}
@@ -138,6 +77,7 @@ pipeline:
       - export PRIVATE_WORKFLOW_ENGINE_NAME=$${TRANSACTION_DEV_PRIVATE_WORKFLOW_ENGINE_NAME}
       - export PRIVATE_WORKFLOW_EXECUTOR_NAME=$${TRANSACTION_DEV_PRIVATE_WORKFLOW_EXECUTOR_NAME}
       - export PRIVATE_TRANSLATION_SERVICE_NAME=$${TRANSACTION_DEV_PRIVATE_TRANSLATION_SERVICE_NAME}
+      - export UPTIME=$${TRANSACTION_DEV_UPTIME}
       - kd --insecure-skip-tls-verify -f kube/secret.yml
       - kd --insecure-skip-tls-verify -f kube/network-policy.yml
       - kd --insecure-skip-tls-verify -f kube/service.yml
@@ -148,69 +88,6 @@ pipeline:
         - master
       event:
         - push
-        - deployment
-
-  deploy_to_test_transaction:
-    image: quay.io/ukhomeofficedigital/kd
-    secrets:
-      - TRANSACTION_TEST_NAME
-      - TRANSACTION_TEST_DOMAIN
-      - TRANSACTION_TEST_WHITELIST
-      - TRANSACTION_TEST_KUBE_NAMESPACE
-      - TRANSACTION_TEST_KUBE_SERVER
-      - TRANSACTION_TEST_KUBE_TOKEN
-      - TRANSACTION_TEST_INTERNAL_CA_URL
-      - TRANSACTION_TEST_NO_LOGGING_URL_PARAMS
-      - TRANSACTION_TEST_NO_LOGGING_BODY
-      - TRANSACTION_TEST_NO_LOGGING_RESPONSE
-      - TRANSACTION_TEST_PGRST_DB_URI
-      - TRANSACTION_TEST_PGRST_DB_ANON_ROLE
-      - TRANSACTION_TEST_PGRST_JWT_AUD
-      - TRANSACTION_TEST_PGRST_ROLE_CLAIM_KEY
-      - TRANSACTION_TEST_PGRST_DB_SCHEMA
-      - TRANSACTION_TEST_PGRST_SECRET_IS_BASE64
-      - TRANSACTION_TEST_PGRST_SERVER_PROXY_URI
-      - TRANSACTION_TEST_KEYCLOAK_URL
-      - TRANSACTION_TEST_KEYCLOAK_REALM
-      - TRANSACTION_TEST_PRIVATE_UI_NAME
-      - TRANSACTION_TEST_PRIVATE_WORKFLOW_ENGINE_NAME
-      - TRANSACTION_TEST_PRIVATE_WORKFLOW_EXECUTOR_NAME
-      - TRANSACTION_TEST_PRIVATE_TRANSLATION_SERVICE_NAME
-    commands:
-      - export NAME=$${TRANSACTION_TEST_NAME}
-      - export DOMAIN=$${TRANSACTION_TEST_DOMAIN}
-      - export WHITELIST=$${TRANSACTION_TEST_WHITELIST}
-      - export KUBE_NAMESPACE=$${TRANSACTION_TEST_KUBE_NAMESPACE}
-      - export KUBE_SERVER=$${TRANSACTION_TEST_KUBE_SERVER}
-      - export KUBE_TOKEN=$${TRANSACTION_TEST_KUBE_TOKEN}
-      - export INTERNAL_CA_URL=$${TRANSACTION_TEST_INTERNAL_CA_URL}
-      - export NO_LOGGING_URL_PARAMS=$${TRANSACTION_TEST_NO_LOGGING_URL_PARAMS}
-      - export NO_LOGGING_BODY=$${TRANSACTION_TEST_NO_LOGGING_BODY}
-      - export NO_LOGGING_RESPONSE=$${TRANSACTION_TEST_NO_LOGGING_RESPONSE}
-      - export PGRST_DB_URI=$${TRANSACTION_TEST_PGRST_DB_URI}
-      - export PGRST_DB_ANON_ROLE=$${TRANSACTION_TEST_PGRST_DB_ANON_ROLE}
-      - export PGRST_JWT_AUD=$${TRANSACTION_TEST_PGRST_JWT_AUD}
-      - export PGRST_ROLE_CLAIM_KEY=$${TRANSACTION_TEST_PGRST_ROLE_CLAIM_KEY}
-      - export PGRST_DB_SCHEMA=$${TRANSACTION_TEST_PGRST_DB_SCHEMA}
-      - export PGRST_SECRET_IS_BASE64=$${TRANSACTION_TEST_PGRST_SECRET_IS_BASE64}
-      - export PGRST_SERVER_PROXY_URI=$${TRANSACTION_TEST_PGRST_SERVER_PROXY_URI}
-      - export KEYCLOAK_URL=$${TRANSACTION_TEST_KEYCLOAK_URL}
-      - export KEYCLOAK_REALM=$${TRANSACTION_TEST_KEYCLOAK_REALM}
-      - export PRIVATE_UI_NAME=$${TRANSACTION_TEST_PRIVATE_UI_NAME}
-      - export PRIVATE_WORKFLOW_ENGINE_NAME=$${TRANSACTION_TEST_PRIVATE_WORKFLOW_ENGINE_NAME}
-      - export PRIVATE_WORKFLOW_EXECUTOR_NAME=$${TRANSACTION_TEST_PRIVATE_WORKFLOW_EXECUTOR_NAME}
-      - export PRIVATE_TRANSLATION_SERVICE_NAME=$${TRANSACTION_TEST_PRIVATE_TRANSLATION_SERVICE_NAME}
-      - kd --insecure-skip-tls-verify -f kube/secret.yml
-      - kd --insecure-skip-tls-verify -f kube/network-policy.yml
-      - kd --insecure-skip-tls-verify -f kube/service.yml
-      - kd --insecure-skip-tls-verify -f kube/deployment.yml
-      - kd --insecure-skip-tls-verify -f kube/ingress.yml
-    when:
-      branch:
-        - master
-      event:
-        - push
-        - deployment
 
   deploy_to_demo_transaction:
     image: quay.io/ukhomeofficedigital/kd
@@ -238,6 +115,7 @@ pipeline:
       - TRANSACTION_DEMO_PRIVATE_WORKFLOW_ENGINE_NAME
       - TRANSACTION_DEMO_PRIVATE_WORKFLOW_EXECUTOR_NAME
       - TRANSACTION_DEMO_PRIVATE_TRANSLATION_SERVICE_NAME
+      - TRANSACTION_DEMO_UPTIME
     commands:
       - export NAME=$${TRANSACTION_DEMO_NAME}
       - export DOMAIN=$${TRANSACTION_DEMO_DOMAIN}
@@ -262,6 +140,7 @@ pipeline:
       - export PRIVATE_WORKFLOW_ENGINE_NAME=$${TRANSACTION_DEMO_PRIVATE_WORKFLOW_ENGINE_NAME}
       - export PRIVATE_WORKFLOW_EXECUTOR_NAME=$${TRANSACTION_DEMO_PRIVATE_WORKFLOW_EXECUTOR_NAME}
       - export PRIVATE_TRANSLATION_SERVICE_NAME=$${TRANSACTION_DEMO_PRIVATE_TRANSLATION_SERVICE_NAME}
+      - export UPTIME=$${TRANSACTION_DEMO_UPTIME}
       - kd --insecure-skip-tls-verify -f kube/secret.yml
       - kd --insecure-skip-tls-verify -f kube/network-policy.yml
       - kd --insecure-skip-tls-verify -f kube/service.yml

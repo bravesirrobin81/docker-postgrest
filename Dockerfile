@@ -13,6 +13,7 @@ RUN BUILD_DEPS="curl ca-certificates build-essential git" && \
 ENV PATH $PATH:/root/.local/bin
 
 RUN git clone -b v5.2.0 https://github.com/PostgREST/postgrest.git
+RUN cd postgrest && stack setup
 RUN cd postgrest && stack build --profile
 
 
@@ -22,7 +23,7 @@ FROM amazonlinux:latest
 USER root
 
 RUN yum -y update --exclude=filesystem && \
-    yum -y install shadow-utils postgresql-libs && \
+    yum -y install shadow-utils postgresql-libs jq && \
     groupadd -g 1000 postgrest && \
     adduser -g 1000 -u 1000 -s /bin/bash -d /home/postgrest postgrest && \
     yum -y clean all

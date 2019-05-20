@@ -65,6 +65,7 @@ spec:
             proxy_buffers             4 512k;
             proxy_busy_buffers_size   512k;
             echo_read_request_body;
+            add_header       Access-Control-Allow-Origin '{{.PROTOCOL}}{{.PRIVATE_UI_NAME}}.{{.EXT_DOMAIN}}' always;
         - name: LOG_FORMAT_NAME
           value: "json"
         - name: NO_LOGGING_URL_PARAMS
